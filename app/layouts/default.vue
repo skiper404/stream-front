@@ -1,14 +1,10 @@
 <script setup lang="ts"></script>
 <template>
-	<div class="flex flex-col h-screen">
-		<header class="h-14 flex items-center justify-center bg-secondary/50">
-			Header
-		</header>
-		<main class="flex-1">
-			<slot />
-		</main>
-		<footer class="h-10 flex items-center justify-center bg-amber-800/50">
-			Footer
-		</footer>
-	</div>
+  <div class="flex h-screen flex-col">
+    <header class="bg-accented/50 flex h-10 items-center justify-center">Header</header>
+    <main class="flex-1">
+      <slot />
+    </main>
+    <footer class="bg-accented/50 flex h-8 items-center justify-center">Footer</footer>
+  </div>
 </template>
