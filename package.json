@@ -13,6 +13,7 @@
     "@nuxt/ui": "^4.8.2",
     "nuxt": "^4.4.8",
     "nuxt-graphql-client": "^0.2.46",
+    "nuxt-typed-router": "^4.0.9",
     "tailwindcss": "^4.3.1",
     "vue": "^3.5.35",
     "vue-router": "^5.1.0",

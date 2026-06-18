@@ -5,10 +5,10 @@ import { createUserSchema, type CreateUserSchema } from "~/schemas/create-user.s
 useHead({ title: "Stream | Create User" })
 
 const state = reactive<CreateUserSchema>({
-  username: "",
-  email: "",
-  password: "",
-  repeatPassword: ""
+  username: "skiper",
+  email: "skiper@mail.com",
+  password: "12341234",
+  repeatPassword: "12341234"
 })
 
 watch(
@@ -33,7 +33,7 @@ const onSubmit = async (event: FormSubmitEvent<CreateUserSchema>) => {
         password: event.data.password
       }
     })
-    await navigateTo("/")
+    // await navigateTo("/")
   } catch (err: any) {
     if (err) {
       error.value = err.gqlErrors[0].message

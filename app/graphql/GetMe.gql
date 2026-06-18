@@ -1,0 +1,19 @@
+query GetMe {
+  getMe {
+    id
+    username
+    email
+    password
+
+    isVerified
+    isEmailVerified
+    isTotpEnabled
+    totpSecret
+
+    deactivatedAt
+    isDeactivated
+
+    createdAt
+    updatedAt
+  }
+}

@@ -103,6 +103,15 @@ const onSubmit = async (event: FormSubmitEvent<LoginUserSchema>) => {
           <UButton to="/auth/create-user" variant="link" class="transition hover:underline" size="xs">
             Create account
           </UButton>
+          <UButton
+            to="/account/reset-password"
+            variant="link"
+            color="warning"
+            class="transition hover:underline"
+            size="xs"
+          >
+            Forgot password
+          </UButton>
         </div>
       </template>
     </UCard>

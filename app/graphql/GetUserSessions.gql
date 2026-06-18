@@ -1,0 +1,17 @@
+query GetUserSessions {
+  getUserSessions {
+    id
+    userId
+    metadata {
+      location {
+        country
+        city
+      }
+      device {
+        browser
+        os
+      }
+      ip
+    }
+  }
+}
