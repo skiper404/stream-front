@@ -16,10 +16,14 @@ const isLoadingEnable = ref(false)
 const isLoadingDisable = ref(false)
 const changeEmailLoading = ref(false)
 const changePasswordLoading = ref(false)
+const changeAvatarLoading = ref(false)
+const removeAvatarLoading = ref(false)
 
 const newEmail = ref("")
 const oldPassword = ref("")
 const newPassword = ref("")
+
+const avatar = ref<File | null | undefined>(null)
 
 const logout = async () => {
   try {
@@ -117,6 +121,50 @@ const changePassword = async () => {
     changePasswordLoading.value = false
   }
 }
+
+const onFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+
+  if (!target.files?.length) return
+
+  avatar.value = target.files[0]
+}
+
+const changeAvatar = async () => {
+  try {
+    console.log("avatar:", avatar.value)
+    console.log("is File:", avatar.value instanceof File)
+
+    if (!avatar.value) {
+      toast.add({ title: "Select file first" })
+      return
+    }
+
+    changeAvatarLoading.value = true
+    await GqlChangeProfileAvatar({ avatar: avatar.value })
+
+    toast.add({ title: "Avatar changed!" })
+  } catch (e: any) {
+    changeAvatarLoading.value = false
+    toast.add({ title: e.gqlErrors[0].message })
+  } finally {
+    changeAvatarLoading.value = false
+  }
+}
+
+const removeAvatar = async () => {
+  try {
+    removeAvatarLoading.value = true
+    await GqlRemoveProfileAvatar()
+
+    toast.add({ title: "Avatar removed!" })
+  } catch (e: any) {
+    removeAvatarLoading.value = false
+    toast.add({ title: e.gqlErrors[0].message })
+  } finally {
+    removeAvatarLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -149,6 +197,8 @@ const changePassword = async () => {
       <pre>username: {{ user.username }}</pre>
       <pre>email: {{ user.email }}</pre>
       <pre>password: {{ user.password }}</pre>
+      <pre>avatar: {{ user.avatar }}</pre>
+      <pre>bio: {{ user.bio }}</pre>
       <pre>IsVerified: {{ user.isVerified }}</pre>
       <pre>IsEmailVerified: {{ user.isEmailVerified }}</pre>
       <pre>isTotpEnabled: {{ user.isTotpEnabled }}</pre>
@@ -159,6 +209,11 @@ const changePassword = async () => {
       <pre>createdAt: {{ user.createdAt }}</pre>
       <pre>updatedAt: {{ user.updatedAt }}</pre>
     </div>
+
+    <input type="file" @change="onFileChange" />
+
+    <button :disabled="changeAvatarLoading" @click="changeAvatar">Upload</button>
+
     <div class="my-4 space-x-4">
       <UInput v-model="newEmail" placeholder="newEmail" />
       <UButton :disabled="changeEmailLoading" :loading="changeEmailLoading" @click="changeEmail" label="changeEmail" />

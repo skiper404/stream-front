@@ -5,6 +5,9 @@ query GetMe {
     email
     password
 
+    avatar
+    bio
+
     isVerified
     isEmailVerified
     isTotpEnabled

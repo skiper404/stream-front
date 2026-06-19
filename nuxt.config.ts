@@ -6,6 +6,7 @@ export default defineNuxtConfig({
 
   "graphql-client": {
     documentPaths: ["./graphql"],
+
     clients: {
       default: {
         host: process.env.GQL_HOST as string,
