@@ -1,13 +1,30 @@
 <script setup lang="ts">
+import {
+  ChangeEmailDocument,
+  ChangePasswordDocument,
+  ChangeProfileAvatarDocument,
+  ClearSessionCookieDocument,
+  DisableTotpDocument,
+  EnableTotpDocument,
+  GenerateTotpSecretDocument,
+  GetCurrentSessionDocument,
+  GetMeDocument,
+  GetUserSessionsDocument,
+  LogoutUserDocument,
+  RemoveProfileAvatarDocument,
+  RemoveSessionDocument
+} from "~/graphql/generated/graphql"
+
 const toast = useToast()
+const apollo = useApollo()
 
-const { data: userData, pending, refresh } = useAsyncGql("GetMe")
-const { data: sessionData } = useAsyncGql("GetCurrentSession")
-const { data: sessionsData } = useAsyncGql("GetUserSessions")
+const { data: meData } = await apollo.query({ query: GetMeDocument })
+const { data: sessionData } = await apollo.query({ query: GetCurrentSessionDocument })
+const { data: sessionsData } = await apollo.query({ query: GetUserSessionsDocument })
 
-const user = computed(() => userData.value?.getMe ?? null)
-const session = computed(() => sessionData.value?.getCurrentSession ?? null)
-const sessions = computed(() => sessionsData.value?.getUserSessions ?? [])
+const user = computed(() => meData?.getMe ?? null)
+const session = computed(() => sessionData?.getCurrentSession ?? null)
+const sessions = computed(() => sessionsData?.getUserSessions ?? [])
 
 const totp = ref<{ qrcodeUrl: string; secret: string } | null>(null)
 
@@ -27,40 +44,42 @@ const avatar = ref<File | null | undefined>(null)
 
 const logout = async () => {
   try {
-    await GqlLogoutUser()
+    await apollo.mutate({ mutation: LogoutUserDocument })
     await navigateTo("/auth/login-user")
-  } catch (err) {
-    console.log(err)
+  } catch (e: any) {
+    toast.add({ title: e.message })
   }
 }
 
 const clearSessionCookie = async () => {
   try {
-    await GqlClearSessionCookie()
-  } catch (e) {
-    console.log(e)
+    await apollo.mutate({ mutation: ClearSessionCookieDocument })
+  } catch (e: any) {
+    toast.add({ title: e.message })
   }
 }
 
 const removeSession = async () => {
   try {
-    await GqlRemoveSession({ id: "vkxCZK8PyNWzE-k3yhyi1_cEtZM-N5Ku" })
-  } catch (e) {
-    console.log(e)
+    await apollo.mutate({ mutation: RemoveSessionDocument, variables: { id: "vkxCZK8PyNWzE-k3yhyi1_cEtZM-N5Ku" } })
+  } catch (e: any) {
+    toast.add({ title: e.message })
   }
 }
 
 const generateTotpSecret = async () => {
   try {
     isLoadingGenerateTotp.value = true
-    const totpData = await GqlGenerateTotpSecret()
+    const { data } = await apollo.query({ query: GenerateTotpSecretDocument })
 
-    totp.value = totpData.generateTotpSecret
+    if (!data?.generateTotpSecret) return
+
+    totp.value = data.generateTotpSecret
 
     toast.add({ title: "TotpSecret Generated!" })
   } catch (e: any) {
     isLoadingGenerateTotp.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     isLoadingGenerateTotp.value = false
   }
@@ -69,12 +88,15 @@ const generateTotpSecret = async () => {
 const enableTotp = async () => {
   try {
     isLoadingEnable.value = true
-    await GqlEnableTotp({ data: { pin: "826630", secret: "XTUMDKOXJZCLYR7OJWFSABJKTCW6S5P3" } })
+    await apollo.mutate({
+      mutation: EnableTotpDocument,
+      variables: { data: { pin: "123456", secret: "XTUMDKOXJZCLYR7OJWFSABJKTCW6S5P3" } }
+    })
 
     toast.add({ title: "Totp Enabled!" })
   } catch (e: any) {
     isLoadingEnable.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     isLoadingEnable.value = false
   }
@@ -83,12 +105,12 @@ const enableTotp = async () => {
 const disableTotp = async () => {
   try {
     isLoadingDisable.value = true
-    await GqlDisableTotp()
+    await apollo.mutate({ mutation: DisableTotpDocument })
 
     toast.add({ title: "Totp Disabled!" })
   } catch (e: any) {
     isLoadingDisable.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     isLoadingDisable.value = false
   }
@@ -97,12 +119,12 @@ const disableTotp = async () => {
 const changeEmail = async () => {
   try {
     changeEmailLoading.value = true
-    await GqlChangeEmail({ data: { email: newEmail.value } })
+    await apollo.mutate({ mutation: ChangeEmailDocument, variables: { data: { email: newEmail.value } } })
 
     toast.add({ title: "Email changed!" })
   } catch (e: any) {
     changeEmailLoading.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     changeEmailLoading.value = false
   }
@@ -111,12 +133,15 @@ const changeEmail = async () => {
 const changePassword = async () => {
   try {
     changePasswordLoading.value = true
-    await GqlChangePassword({ data: { newPassword: newPassword.value, oldPassword: oldPassword.value } })
+    await apollo.mutate({
+      mutation: ChangePasswordDocument,
+      variables: { data: { newPassword: newPassword.value, oldPassword: oldPassword.value } }
+    })
 
     toast.add({ title: "Password changed!" })
   } catch (e: any) {
     changePasswordLoading.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     changePasswordLoading.value = false
   }
@@ -141,12 +166,12 @@ const changeAvatar = async () => {
     }
 
     changeAvatarLoading.value = true
-    await GqlChangeProfileAvatar({ avatar: avatar.value })
+    await apollo.mutate({ mutation: ChangeProfileAvatarDocument, variables: { avatar: avatar.value } })
 
     toast.add({ title: "Avatar changed!" })
   } catch (e: any) {
     changeAvatarLoading.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     changeAvatarLoading.value = false
   }
@@ -155,12 +180,12 @@ const changeAvatar = async () => {
 const removeAvatar = async () => {
   try {
     removeAvatarLoading.value = true
-    await GqlRemoveProfileAvatar()
+    await apollo.mutate({ mutation: RemoveProfileAvatarDocument })
 
     toast.add({ title: "Avatar removed!" })
   } catch (e: any) {
     removeAvatarLoading.value = false
-    toast.add({ title: e.gqlErrors[0].message })
+    toast.add({ title: e.message })
   } finally {
     removeAvatarLoading.value = false
   }
@@ -214,6 +239,13 @@ const removeAvatar = async () => {
 
     <button :disabled="changeAvatarLoading" @click="changeAvatar">Upload</button>
 
+    <UButton
+      :disabled="removeAvatarLoading"
+      :loading="removeAvatarLoading"
+      @click="removeAvatar"
+      label="Remove Avatar"
+    />
+
     <div class="my-4 space-x-4">
       <UInput v-model="newEmail" placeholder="newEmail" />
       <UButton :disabled="changeEmailLoading" :loading="changeEmailLoading" @click="changeEmail" label="changeEmail" />
@@ -228,7 +260,6 @@ const removeAvatar = async () => {
     </div>
     <div class="my-4 space-x-4">
       <UButton @click="logout" label="Logout" />
-      <UButton :disabled="pending" :loading="pending" @click="() => refresh()" label="Refresh" />
       <UButton @click="clearSessionCookie" label="Clear Session Cookie" />
       <UButton @click="removeSession" label="Remove Session" />
     </div>

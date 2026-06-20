@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui"
+import { LoginUserDocument } from "~/graphql/generated/graphql"
 import { loginUserSchema, type LoginUserSchema } from "~/schemas/login-user.schema"
 
 useHead({ title: "Stream | Login User" })
+
+const apollo = useApollo()
 
 const state = reactive<LoginUserSchema>({ login: "skiper", password: "12341234" })
 
@@ -21,17 +24,15 @@ watch(
 const onSubmit = async (event: FormSubmitEvent<LoginUserSchema>) => {
   try {
     isLoading.value = true
-    await GqlLoginUser({
-      data: {
-        login: event.data.login,
-        password: event.data.password
-      }
+    await apollo.mutate({
+      mutation: LoginUserDocument,
+      variables: { data: { login: event.data.login, password: event.data.password } }
     })
 
     await navigateTo("/")
   } catch (err: any) {
     if (err) {
-      error.value = err.gqlErrors[0].message
+      error.value = err.message
       isAnimating.value = true
     }
   } finally {
