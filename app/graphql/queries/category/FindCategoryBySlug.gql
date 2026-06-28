@@ -1,0 +1,9 @@
+query FindCategoryBySlug($slug: String!) {
+  findCategoryBySlug(slug: $slug) {
+    id
+    title
+    slug
+    description
+    thumbnailUrl
+  }
+}

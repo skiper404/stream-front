@@ -1,0 +1,6 @@
+query GetAllMessages {
+  getAllMessages {
+    id
+    text
+  }
+}

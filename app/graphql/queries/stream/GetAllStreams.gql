@@ -1,0 +1,17 @@
+query GetAllStreams($filters: FiltersInput!) {
+  getAllStreams(filters: $filters) {
+    id
+    title
+    thumbnailUrl
+    ingressId
+    serverUrl
+    streamKey
+    isLive
+
+    user {
+      username
+      avatar
+      isVerified
+    }
+  }
+}

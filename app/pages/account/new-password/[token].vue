@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { NewPasswordDocument } from "~/graphql/generated/graphql"
+
 const route = useRoute()
 const toast = useToast()
+const authStore = useAuthStore()
 
 const token = String(route.params.token ?? "")
 const isLoading = ref(false)
@@ -10,10 +13,8 @@ const newPassword = ref("")
 const resetPassword = async () => {
   try {
     isLoading.value = true
-    await GqlNewPassword({ data: { password: newPassword.value, passwordRepeat: newPassword.value, token } })
-
+    await authStore.newPassword(newPassword.value, newPassword.value, token)
     toast.add({ title: "Password reset!" })
-
     await navigateTo("/auth/login-user")
   } catch (e: any) {
     toast.add({ title: e.gqlErrors[0].message })

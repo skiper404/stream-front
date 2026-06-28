@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const toast = useToast()
+const authStore = useAuthStore()
 
 const token = String(route.params.token ?? "")
 const isLoading = ref(false)
@@ -8,11 +9,9 @@ const isLoading = ref(false)
 const verifyAccount = async () => {
   try {
     isLoading.value = true
-    await GqlVerifyAccount({ data: { token } })
-
-    toast.add({ title: "Account verified!" })
-
+    await authStore.verifyAccount(token)
     await navigateTo("/auth/login-user")
+    toast.add({ title: "Account verified!" })
   } catch (e: any) {
     toast.add({ title: e.gqlErrors[0].message })
     isLoading.value = false

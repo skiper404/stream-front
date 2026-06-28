@@ -1,16 +1,12 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client"
-import CreateUploadLink from "apollo-upload-client/UploadHttpLink.mjs"
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client"
 
-export default defineNuxtPlugin(nuxtApp => {
-  const headers = useRequestHeaders(["cookie"])
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig()
 
   const apollo = new ApolloClient({
-    link: new CreateUploadLink({
-      uri: "http://localhost:4000/graphql",
-      credentials: "include",
-      headers: {
-        cookie: headers.cookie || ""
-      }
+    link: new HttpLink({
+      uri: config.public.backendUrl,
+      credentials: "include"
     }),
     cache: new InMemoryCache()
   })

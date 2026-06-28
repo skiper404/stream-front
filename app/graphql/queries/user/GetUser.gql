@@ -1,5 +1,5 @@
-query GetMe {
-  getMe {
+query GetUser {
+  getUser {
     id
     username
     email

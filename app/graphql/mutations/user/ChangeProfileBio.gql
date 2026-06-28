@@ -1,0 +1,3 @@
+mutation ChangeProfileBio($data: BioInput!) {
+  changeProfileBio(data: $data)
+}

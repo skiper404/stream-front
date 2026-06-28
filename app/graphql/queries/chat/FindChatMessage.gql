@@ -1,0 +1,6 @@
+query FindChatMessagesByStream {
+  findChatMessagesByStream(streamId: "123") {
+    id
+    text
+  }
+}

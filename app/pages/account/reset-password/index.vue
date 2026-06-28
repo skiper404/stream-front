@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const toast = useToast()
+const authStore = useAuthStore()
 
 const isLoading = ref(false)
 
@@ -8,11 +9,9 @@ const email = ref("")
 const resetPassword = async () => {
   try {
     isLoading.value = true
-    await GqlResetPassword({ data: { email: email.value } })
-
+    await authStore.resetPassword(email.value)
+    await navigateTo("/auth/login-user")
     toast.add({ title: "Link with reset password sent to your email!" })
-
-    // await navigateTo("/auth/login-user")
   } catch (e: any) {
     toast.add({ title: e.gqlErrors[0].message })
     isLoading.value = false
