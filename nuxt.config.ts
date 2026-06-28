@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   runtimeConfig: {
-    public: { backendUrl: process.env.NUXT_BACKEND_URL, livekitUrl: process.env.NUXT_LIVEKIT_URL }
+    public: { backendUrl: process.env.NUXT__PUBLIC_BACKEND_URL, livekitUrl: process.env.NUXT_PUBLIC_LIVEKIT_URL }
   },
 
   vite: {
