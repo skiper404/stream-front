@@ -3,7 +3,8 @@ export default defineNuxtRouteMiddleware(async () => {
 
   try {
     await sessionStore.getSession()
+    return navigateTo("/")
   } catch {
-    return navigateTo("/auth/login-user")
+    return
   }
 })

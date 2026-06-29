@@ -2,15 +2,13 @@ import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client"
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
-  // так все таки нужно прокидывать куку для ssr
-  const headers = useRequestHeaders(["cookie"])
+  const headers = import.meta.server ? useRequestHeaders(["cookie"]) : {}
 
   const apollo = new ApolloClient({
     link: new HttpLink({
-      uri: config.public.backendUrl,
-      // uri: config.public.localBackendUrl,
-      credentials: "include",
-      headers
+      uri: config.public.localBackendUrl,
+      credentials: "include", // для клиентского запроса сам браузер пробрасывает
+      headers // для серверного я пробрасываю
     }),
     cache: new InMemoryCache()
   })

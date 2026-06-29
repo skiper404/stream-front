@@ -10,6 +10,7 @@ import {
 export const useSessionStore = defineStore("session", () => {
   const { $apollo } = useNuxtApp()
 
+  const isReady = ref(false)
   const session = ref<GetCurrentSessionQuery["getCurrentSession"] | null>(null)
   const sessions = ref<GetUserSessionsQuery["getUserSessions"] | null>(null)
 
@@ -34,5 +35,5 @@ export const useSessionStore = defineStore("session", () => {
     })
   }
 
-  return { session, sessions, getSession, getSessions, clearSessionCookie, removeSession }
+  return { isReady, session, sessions, getSession, getSessions, clearSessionCookie, removeSession }
 })

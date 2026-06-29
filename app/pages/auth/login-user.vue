@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui"
 import { loginUserSchema, type LoginUserSchema } from "~/schemas/login-user.schema"
+definePageMeta({ middleware: "guest" })
 
 useHead({ title: "Stream | Login User" })
 const useAuth = useAuthStore()

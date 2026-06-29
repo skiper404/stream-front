@@ -15,9 +15,9 @@ const categoryStore = useCategoryStore()
 const chatStore = useChatStore()
 
 await userStore.getUser()
-await sessionStore.getSession()
 
 // await sessionStore.getSessions()
+
 // await socialLinksStore.getSocialLinks()
 // await streamsStore.getStreams()
 // await ingressesStore.getIngresses()
@@ -276,7 +276,6 @@ const sendMessage = async () => {
 <template>
   <div class="flex h-full flex-col items-center gap-1 border">
     <div class="my-10">Home</div>
-    <div>Cookie: {{ useCookie("session") }}</div>
     <div>Session: {{ sessionStore.session }}</div>
     <div>
       Sessions:
