@@ -14,10 +14,8 @@ const authStore = useAuthStore()
 const categoryStore = useCategoryStore()
 const chatStore = useChatStore()
 
-onMounted(async () => {
-  await userStore.getUser()
-  await sessionStore.getSession()
-})
+await userStore.getUser()
+await sessionStore.getSession()
 
 // await sessionStore.getSessions()
 // await socialLinksStore.getSocialLinks()
