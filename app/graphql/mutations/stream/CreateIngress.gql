@@ -1,3 +1,6 @@
 mutation CreateIngress {
-  createIngress
+  createIngress {
+    serverUrl
+    streamKey
+  }
 }

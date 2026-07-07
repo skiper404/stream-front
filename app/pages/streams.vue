@@ -1,7 +1,7 @@
-<script setup></script>
-
 <template>
-  <div>Stream Page</div>
-
-  <StreamsContent />
+  <UContainer>
+    <div>Streams</div>
+  </UContainer>
 </template>
+
+<script setup lang="ts"></script>

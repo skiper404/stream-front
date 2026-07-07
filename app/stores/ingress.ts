@@ -1,38 +1,44 @@
-import {
-  CreateIngressDocument,
-  GetIngressesDocument,
-  RemoveIngressesDocument,
-  type GetIngressesQuery
-} from "~/graphql/generated/graphql"
+// import {
+//   CreateIngressDocument,
+//   GetIngressesDocument,
+//   RemoveIngressesDocument,
+//   type CreateIngressMutation,
+//   type GetIngressesQuery
+// } from "~/graphql/generated/graphql"
 
-export const useIngressesStore = defineStore("ingresses", () => {
-  const { $apollo } = useNuxtApp()
+// export const useIngressesStore = defineStore("ingresses", () => {
+//   const { $apollo } = useNuxtApp()
 
-  const ingresses = ref<GetIngressesQuery["getIngresses"] | null>(null)
+//   const ingress = ref<CreateIngressMutation["createIngress"] | null>(null)
+//   const ingresses = ref<GetIngressesQuery["getIngresses"] | null>(null)
 
-  const getIngresses = async () => {
-    const { data } = await $apollo.query({
-      query: GetIngressesDocument,
-      fetchPolicy: "network-only"
-    })
+//   const getIngresses = async () => {
+//     const { data } = await $apollo.query({
+//       query: GetIngressesDocument,
+//       fetchPolicy: "network-only"
+//     })
 
-    ingresses.value = data?.getIngresses ?? null
-    console.log("ингрессы на фронте", data?.getIngresses)
-  }
+//     ingresses.value = data?.getIngresses ?? null
+//     console.log("ингрессы на фронте", data?.getIngresses)
+//   }
 
-  const createIngress = async () => {
-    await $apollo.mutate({
-      mutation: CreateIngressDocument
-    })
-    await getIngresses()
-  }
+//   const createIngress = async () => {
+//     const { data } = await $apollo.mutate({
+//       mutation: CreateIngressDocument
+//     })
+//     ingress.value = data?.createIngress ?? null
+//     await getIngresses()
+//   }
 
-  const removeIngresses = async () => {
-    await $apollo.mutate({
-      mutation: RemoveIngressesDocument
-    })
-    await getIngresses()
-  }
+//   const removeIngresses = async () => {
+//     await $apollo.mutate({
+//       mutation: RemoveIngressesDocument
+//     })
 
-  return { ingresses, getIngresses, createIngress, removeIngresses }
-})
+//     ingress.value = null
+
+//     await getIngresses()
+//   }
+
+//   return { ingress, ingresses, getIngresses, createIngress, removeIngresses }
+// })

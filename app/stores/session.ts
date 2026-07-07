@@ -10,13 +10,14 @@ import {
 export const useSessionStore = defineStore("session", () => {
   const { $apollo } = useNuxtApp()
 
-  const isReady = ref(false)
   const session = ref<GetCurrentSessionQuery["getCurrentSession"] | null>(null)
   const sessions = ref<GetUserSessionsQuery["getUserSessions"] | null>(null)
 
-  const getSession = async () => {
+  const getCurrentSession = async () => {
     const { data } = await $apollo.query({ query: GetCurrentSessionDocument, fetchPolicy: "network-only" })
     session.value = data?.getCurrentSession ?? null
+
+    return data?.getCurrentSession
   }
 
   const getSessions = async () => {
@@ -35,5 +36,5 @@ export const useSessionStore = defineStore("session", () => {
     })
   }
 
-  return { isReady, session, sessions, getSession, getSessions, clearSessionCookie, removeSession }
+  return { session, sessions, getCurrentSession, getSessions, clearSessionCookie, removeSession }
 })

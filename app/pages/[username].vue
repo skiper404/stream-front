@@ -1,5 +1,9 @@
-<script setup></script>
+<script setup lang="ts">
+const route = useRoute("username")
+</script>
 
 <template>
-  <div>ChannelPage</div>
+  <UContainer>
+    <div>username: {{ route.params.username }}</div>
+  </UContainer>
 </template>

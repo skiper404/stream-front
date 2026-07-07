@@ -1,7 +1,7 @@
-<script setup></script>
+<script setup lang="ts">
+const route = useRoute("categories-slug")
+</script>
 
 <template>
-  <div>1</div>
+  <div>Category slug: {{ route.params.slug }}</div>
 </template>
-
-<style lang="scss" scoped></style>

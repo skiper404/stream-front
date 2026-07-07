@@ -1,8 +1,7 @@
-<script setup></script>
+<script setup lang="ts"></script>
 
 <template>
-  <div></div>
+  <UContainer>
+    <div>Transactions</div>
+  </UContainer>
 </template>
-
-
-<style lang="scss" scoped></style>

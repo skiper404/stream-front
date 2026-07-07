@@ -1,9 +1,8 @@
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const sessionStore = useSessionStore()
+  await sessionStore.getCurrentSession()
 
-  try {
-    await sessionStore.getSession()
-  } catch {
-    return navigateTo("/auth/login-user")
+  if (!sessionStore.session) {
+    return navigateTo("/account/login-user")
   }
 })

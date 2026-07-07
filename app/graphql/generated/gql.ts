@@ -15,14 +15,21 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 type Documents = {
     "mutation CreateUser($data: CreateUserInput!) {\n  createUser(data: $data)\n}": typeof types.CreateUserDocument,
-    "mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data)\n}": typeof types.LoginUserDocument,
+    "mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data) {\n    id\n    email\n    username\n  }\n}": typeof types.LoginUserDocument,
     "mutation LogoutUser {\n  logoutUser\n}": typeof types.LogoutUserDocument,
     "mutation NewPassword($data: NewPasswordInput!) {\n  newPassword(data: $data)\n}": typeof types.NewPasswordDocument,
     "mutation ResetPassword($data: ResetPasswordInput!) {\n  resetPassword(data: $data)\n}": typeof types.ResetPasswordDocument,
     "mutation VerifyAccount($data: VerificationInput!) {\n  verifyAccount(data: $data)\n}": typeof types.VerifyAccountDocument,
     "mutation ChangeChatSettings($data: ChangeChatSettingsInput!) {\n  changeChatSettings(data: $data)\n}": typeof types.ChangeChatSettingsDocument,
     "mutation SendChatMessage($data: SendMessageInput!) {\n  sendChatMessage(data: $data) {\n    id\n    text\n  }\n}": typeof types.SendChatMessageDocument,
-    "mutation CreateIngress {\n  createIngress\n}": typeof types.CreateIngressDocument,
+    "mutation FollowChannel($channelId: String!) {\n  followChannel(channelId: $channelId)\n}": typeof types.FollowChannelDocument,
+    "mutation UnfollowChannel($channelId: String!) {\n  unfollowChannel(channelId: $channelId)\n}": typeof types.UnfollowChannelDocument,
+    "mutation ChangeNotificationSettings($isEnable: Boolean!) {\n  changeNotificationSettings(isEnable: $isEnable) {\n    notificationSettings {\n      siteNotifications\n    }\n  }\n}": typeof types.ChangeNotificationSettingsDocument,
+    "mutation CreateStreamStart {\n  createStreamStart {\n    payload\n    isRead\n  }\n}": typeof types.CreateStreamStartDocument,
+    "mutation CreateVerifyChannel {\n  createVerifyChannel {\n    payload\n    isRead\n  }\n}": typeof types.CreateVerifyChannelDocument,
+    "mutation MarkNotificationsAsRead {\n  markNotificationsAsRead\n}": typeof types.MarkNotificationsAsReadDocument,
+    "mutation RemoveNotification($id: String!) {\n  removeNotification(id: $id)\n}": typeof types.RemoveNotificationDocument,
+    "mutation CreateIngress {\n  createIngress {\n    serverUrl\n    streamKey\n  }\n}": typeof types.CreateIngressDocument,
     "mutation GenerateStreamToken($data: GenerateStreamTokenInput!) {\n  generateStreamToken(data: $data) {\n    token\n  }\n}": typeof types.GenerateStreamTokenDocument,
     "mutation RemoveIngresses {\n  removeIngresses\n}": typeof types.RemoveIngressesDocument,
     "mutation ChangeEmail($data: ChangeEmailInput!) {\n  changeEmail(data: $data)\n}": typeof types.ChangeEmailDocument,
@@ -39,8 +46,15 @@ type Documents = {
     "query FindAllCategories {\n  findAllCategories {\n    id\n    title\n    slug\n    description\n    thumbnailUrl\n  }\n}": typeof types.FindAllCategoriesDocument,
     "query FindCategoryBySlug($slug: String!) {\n  findCategoryBySlug(slug: $slug) {\n    id\n    title\n    slug\n    description\n    thumbnailUrl\n  }\n}": typeof types.FindCategoryBySlugDocument,
     "query FindRandomCategories {\n  findRandomCategories {\n    id\n    title\n    slug\n    description\n    thumbnailUrl\n  }\n}": typeof types.FindRandomCategoriesDocument,
+    "query FindChannelByUsername($username: String!) {\n  findChannelByUsername(username: $username) {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}": typeof types.FindChannelByUsernameDocument,
+    "query FindFollowersCountByChannel($channelId: String!) {\n  findFollowersCountByChannel(channelId: $channelId)\n}": typeof types.FindFollowersCountByChannelDocument,
+    "query FindRecommendedChannels {\n  findRecommendedChannels {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}": typeof types.FindRecommendedChannelsDocument,
     "query FindChatMessagesByStream {\n  findChatMessagesByStream(streamId: \"123\") {\n    id\n    text\n  }\n}": typeof types.FindChatMessagesByStreamDocument,
     "query GetAllMessages {\n  getAllMessages {\n    id\n    text\n  }\n}": typeof types.GetAllMessagesDocument,
+    "query FindMyFollowers {\n  findMyFollowers {\n    follower {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}": typeof types.FindMyFollowersDocument,
+    "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}": typeof types.FindMyFollowingsDocument,
+    "query FindNotificationsByUser {\n  findNotificationsByUser {\n    id\n    payload\n    isRead\n    type\n  }\n}": typeof types.FindNotificationsByUserDocument,
+    "query FindUnreadNotificationsCount {\n  findUnreadNotificationsCount\n}": typeof types.FindUnreadNotificationsCountDocument,
     "query GetAllStreams($filters: FiltersInput!) {\n  getAllStreams(filters: $filters) {\n    id\n    title\n    thumbnailUrl\n    ingressId\n    serverUrl\n    streamKey\n    isLive\n    user {\n      username\n      avatar\n      isVerified\n    }\n  }\n}": typeof types.GetAllStreamsDocument,
     "query GetIngresses {\n  getIngresses {\n    ingressId\n    serverUrl\n    streamKey\n  }\n}": typeof types.GetIngressesDocument,
     "query GetRooms {\n  getRooms {\n    name\n  }\n}": typeof types.GetRoomsDocument,
@@ -49,18 +63,25 @@ type Documents = {
     "query GetSocialLinks {\n  getSocialLinks {\n    id\n    title\n    url\n  }\n}": typeof types.GetSocialLinksDocument,
     "query GetUser {\n  getUser {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}": typeof types.GetUserDocument,
     "query GetUserSessions {\n  getUserSessions {\n    id\n    userId\n    metadata {\n      location {\n        country\n        city\n      }\n      device {\n        browser\n        os\n      }\n      ip\n    }\n  }\n}": typeof types.GetUserSessionsDocument,
-    "subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n  }\n}": typeof types.ChatMessageAddedDocument,
+    "subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n    user {\n      id\n      username\n      avatar\n    }\n    createdAt\n  }\n}": typeof types.ChatMessageAddedDocument,
 };
 const documents: Documents = {
     "mutation CreateUser($data: CreateUserInput!) {\n  createUser(data: $data)\n}": types.CreateUserDocument,
-    "mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data)\n}": types.LoginUserDocument,
+    "mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data) {\n    id\n    email\n    username\n  }\n}": types.LoginUserDocument,
     "mutation LogoutUser {\n  logoutUser\n}": types.LogoutUserDocument,
     "mutation NewPassword($data: NewPasswordInput!) {\n  newPassword(data: $data)\n}": types.NewPasswordDocument,
     "mutation ResetPassword($data: ResetPasswordInput!) {\n  resetPassword(data: $data)\n}": types.ResetPasswordDocument,
     "mutation VerifyAccount($data: VerificationInput!) {\n  verifyAccount(data: $data)\n}": types.VerifyAccountDocument,
     "mutation ChangeChatSettings($data: ChangeChatSettingsInput!) {\n  changeChatSettings(data: $data)\n}": types.ChangeChatSettingsDocument,
     "mutation SendChatMessage($data: SendMessageInput!) {\n  sendChatMessage(data: $data) {\n    id\n    text\n  }\n}": types.SendChatMessageDocument,
-    "mutation CreateIngress {\n  createIngress\n}": types.CreateIngressDocument,
+    "mutation FollowChannel($channelId: String!) {\n  followChannel(channelId: $channelId)\n}": types.FollowChannelDocument,
+    "mutation UnfollowChannel($channelId: String!) {\n  unfollowChannel(channelId: $channelId)\n}": types.UnfollowChannelDocument,
+    "mutation ChangeNotificationSettings($isEnable: Boolean!) {\n  changeNotificationSettings(isEnable: $isEnable) {\n    notificationSettings {\n      siteNotifications\n    }\n  }\n}": types.ChangeNotificationSettingsDocument,
+    "mutation CreateStreamStart {\n  createStreamStart {\n    payload\n    isRead\n  }\n}": types.CreateStreamStartDocument,
+    "mutation CreateVerifyChannel {\n  createVerifyChannel {\n    payload\n    isRead\n  }\n}": types.CreateVerifyChannelDocument,
+    "mutation MarkNotificationsAsRead {\n  markNotificationsAsRead\n}": types.MarkNotificationsAsReadDocument,
+    "mutation RemoveNotification($id: String!) {\n  removeNotification(id: $id)\n}": types.RemoveNotificationDocument,
+    "mutation CreateIngress {\n  createIngress {\n    serverUrl\n    streamKey\n  }\n}": types.CreateIngressDocument,
     "mutation GenerateStreamToken($data: GenerateStreamTokenInput!) {\n  generateStreamToken(data: $data) {\n    token\n  }\n}": types.GenerateStreamTokenDocument,
     "mutation RemoveIngresses {\n  removeIngresses\n}": types.RemoveIngressesDocument,
     "mutation ChangeEmail($data: ChangeEmailInput!) {\n  changeEmail(data: $data)\n}": types.ChangeEmailDocument,
@@ -77,8 +98,15 @@ const documents: Documents = {
     "query FindAllCategories {\n  findAllCategories {\n    id\n    title\n    slug\n    description\n    thumbnailUrl\n  }\n}": types.FindAllCategoriesDocument,
     "query FindCategoryBySlug($slug: String!) {\n  findCategoryBySlug(slug: $slug) {\n    id\n    title\n    slug\n    description\n    thumbnailUrl\n  }\n}": types.FindCategoryBySlugDocument,
     "query FindRandomCategories {\n  findRandomCategories {\n    id\n    title\n    slug\n    description\n    thumbnailUrl\n  }\n}": types.FindRandomCategoriesDocument,
+    "query FindChannelByUsername($username: String!) {\n  findChannelByUsername(username: $username) {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}": types.FindChannelByUsernameDocument,
+    "query FindFollowersCountByChannel($channelId: String!) {\n  findFollowersCountByChannel(channelId: $channelId)\n}": types.FindFollowersCountByChannelDocument,
+    "query FindRecommendedChannels {\n  findRecommendedChannels {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}": types.FindRecommendedChannelsDocument,
     "query FindChatMessagesByStream {\n  findChatMessagesByStream(streamId: \"123\") {\n    id\n    text\n  }\n}": types.FindChatMessagesByStreamDocument,
     "query GetAllMessages {\n  getAllMessages {\n    id\n    text\n  }\n}": types.GetAllMessagesDocument,
+    "query FindMyFollowers {\n  findMyFollowers {\n    follower {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}": types.FindMyFollowersDocument,
+    "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}": types.FindMyFollowingsDocument,
+    "query FindNotificationsByUser {\n  findNotificationsByUser {\n    id\n    payload\n    isRead\n    type\n  }\n}": types.FindNotificationsByUserDocument,
+    "query FindUnreadNotificationsCount {\n  findUnreadNotificationsCount\n}": types.FindUnreadNotificationsCountDocument,
     "query GetAllStreams($filters: FiltersInput!) {\n  getAllStreams(filters: $filters) {\n    id\n    title\n    thumbnailUrl\n    ingressId\n    serverUrl\n    streamKey\n    isLive\n    user {\n      username\n      avatar\n      isVerified\n    }\n  }\n}": types.GetAllStreamsDocument,
     "query GetIngresses {\n  getIngresses {\n    ingressId\n    serverUrl\n    streamKey\n  }\n}": types.GetIngressesDocument,
     "query GetRooms {\n  getRooms {\n    name\n  }\n}": types.GetRoomsDocument,
@@ -87,7 +115,7 @@ const documents: Documents = {
     "query GetSocialLinks {\n  getSocialLinks {\n    id\n    title\n    url\n  }\n}": types.GetSocialLinksDocument,
     "query GetUser {\n  getUser {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}": types.GetUserDocument,
     "query GetUserSessions {\n  getUserSessions {\n    id\n    userId\n    metadata {\n      location {\n        country\n        city\n      }\n      device {\n        browser\n        os\n      }\n      ip\n    }\n  }\n}": types.GetUserSessionsDocument,
-    "subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n  }\n}": types.ChatMessageAddedDocument,
+    "subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n    user {\n      id\n      username\n      avatar\n    }\n    createdAt\n  }\n}": types.ChatMessageAddedDocument,
 };
 
 /**
@@ -111,7 +139,7 @@ export function graphql(source: "mutation CreateUser($data: CreateUserInput!) {\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data)\n}"): (typeof documents)["mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data)\n}"];
+export function graphql(source: "mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data) {\n    id\n    email\n    username\n  }\n}"): (typeof documents)["mutation LoginUser($data: LoginUserInput!) {\n  loginUser(data: $data) {\n    id\n    email\n    username\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -139,7 +167,35 @@ export function graphql(source: "mutation SendChatMessage($data: SendMessageInpu
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation CreateIngress {\n  createIngress\n}"): (typeof documents)["mutation CreateIngress {\n  createIngress\n}"];
+export function graphql(source: "mutation FollowChannel($channelId: String!) {\n  followChannel(channelId: $channelId)\n}"): (typeof documents)["mutation FollowChannel($channelId: String!) {\n  followChannel(channelId: $channelId)\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation UnfollowChannel($channelId: String!) {\n  unfollowChannel(channelId: $channelId)\n}"): (typeof documents)["mutation UnfollowChannel($channelId: String!) {\n  unfollowChannel(channelId: $channelId)\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation ChangeNotificationSettings($isEnable: Boolean!) {\n  changeNotificationSettings(isEnable: $isEnable) {\n    notificationSettings {\n      siteNotifications\n    }\n  }\n}"): (typeof documents)["mutation ChangeNotificationSettings($isEnable: Boolean!) {\n  changeNotificationSettings(isEnable: $isEnable) {\n    notificationSettings {\n      siteNotifications\n    }\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation CreateStreamStart {\n  createStreamStart {\n    payload\n    isRead\n  }\n}"): (typeof documents)["mutation CreateStreamStart {\n  createStreamStart {\n    payload\n    isRead\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation CreateVerifyChannel {\n  createVerifyChannel {\n    payload\n    isRead\n  }\n}"): (typeof documents)["mutation CreateVerifyChannel {\n  createVerifyChannel {\n    payload\n    isRead\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation MarkNotificationsAsRead {\n  markNotificationsAsRead\n}"): (typeof documents)["mutation MarkNotificationsAsRead {\n  markNotificationsAsRead\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation RemoveNotification($id: String!) {\n  removeNotification(id: $id)\n}"): (typeof documents)["mutation RemoveNotification($id: String!) {\n  removeNotification(id: $id)\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation CreateIngress {\n  createIngress {\n    serverUrl\n    streamKey\n  }\n}"): (typeof documents)["mutation CreateIngress {\n  createIngress {\n    serverUrl\n    streamKey\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -207,11 +263,39 @@ export function graphql(source: "query FindRandomCategories {\n  findRandomCateg
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "query FindChannelByUsername($username: String!) {\n  findChannelByUsername(username: $username) {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}"): (typeof documents)["query FindChannelByUsername($username: String!) {\n  findChannelByUsername(username: $username) {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FindFollowersCountByChannel($channelId: String!) {\n  findFollowersCountByChannel(channelId: $channelId)\n}"): (typeof documents)["query FindFollowersCountByChannel($channelId: String!) {\n  findFollowersCountByChannel(channelId: $channelId)\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FindRecommendedChannels {\n  findRecommendedChannels {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}"): (typeof documents)["query FindRecommendedChannels {\n  findRecommendedChannels {\n    id\n    username\n    email\n    password\n    avatar\n    bio\n    isVerified\n    isEmailVerified\n    isTotpEnabled\n    totpSecret\n    deactivatedAt\n    isDeactivated\n    createdAt\n    updatedAt\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "query FindChatMessagesByStream {\n  findChatMessagesByStream(streamId: \"123\") {\n    id\n    text\n  }\n}"): (typeof documents)["query FindChatMessagesByStream {\n  findChatMessagesByStream(streamId: \"123\") {\n    id\n    text\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query GetAllMessages {\n  getAllMessages {\n    id\n    text\n  }\n}"): (typeof documents)["query GetAllMessages {\n  getAllMessages {\n    id\n    text\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FindMyFollowers {\n  findMyFollowers {\n    follower {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}"): (typeof documents)["query FindMyFollowers {\n  findMyFollowers {\n    follower {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}"): (typeof documents)["query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FindNotificationsByUser {\n  findNotificationsByUser {\n    id\n    payload\n    isRead\n    type\n  }\n}"): (typeof documents)["query FindNotificationsByUser {\n  findNotificationsByUser {\n    id\n    payload\n    isRead\n    type\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query FindUnreadNotificationsCount {\n  findUnreadNotificationsCount\n}"): (typeof documents)["query FindUnreadNotificationsCount {\n  findUnreadNotificationsCount\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -247,7 +331,7 @@ export function graphql(source: "query GetUserSessions {\n  getUserSessions {\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n  }\n}"): (typeof documents)["subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n  }\n}"];
+export function graphql(source: "subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n    user {\n      id\n      username\n      avatar\n    }\n    createdAt\n  }\n}"): (typeof documents)["subscription ChatMessageAdded($streamId: String!) {\n  chatMessageAdded(streamId: $streamId) {\n    id\n    text\n    user {\n      id\n      username\n      avatar\n    }\n    createdAt\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

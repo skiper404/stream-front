@@ -8,7 +8,7 @@ import {
   type GetUserQuery
 } from "~/graphql/generated/graphql"
 
-export const useUserStore = defineStore("user", () => {
+export const useUserStore = defineStore("userStore", () => {
   const { $apollo } = useNuxtApp()
 
   const user = ref<GetUserQuery["getUser"] | null>(null)
@@ -16,6 +16,8 @@ export const useUserStore = defineStore("user", () => {
   const getUser = async () => {
     const { data } = await $apollo.query({ query: GetUserDocument, fetchPolicy: "network-only" })
     user.value = data?.getUser ?? null
+
+    return data?.getUser ?? null
   }
 
   const changeEmail = async (email: string) => {

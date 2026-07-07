@@ -1,3 +1,7 @@
 mutation LoginUser($data: LoginUserInput!) {
-  loginUser(data: $data)
+  loginUser(data: $data) {
+    id
+    email
+    username
+  }
 }

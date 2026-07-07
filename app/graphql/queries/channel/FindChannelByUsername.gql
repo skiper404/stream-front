@@ -1,0 +1,22 @@
+query FindChannelByUsername($username: String!) {
+  findChannelByUsername(username: $username) {
+    id
+    username
+    email
+    password
+
+    avatar
+    bio
+
+    isVerified
+    isEmailVerified
+    isTotpEnabled
+    totpSecret
+
+    deactivatedAt
+    isDeactivated
+
+    createdAt
+    updatedAt
+  }
+}

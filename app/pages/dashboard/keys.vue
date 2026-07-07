@@ -1,6 +1,9 @@
-<script setup></script>
+<script setup lang="ts">
+definePageMeta({ middleware: "auth" })
+</script>
 
 <template>
-  <div>Keys Settings Page</div>
-  <KeysSettings />
+  <UContainer>
+    <div>Keys</div>
+  </UContainer>
 </template>

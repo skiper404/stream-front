@@ -1,0 +1,10 @@
+query FindMyFollowings {
+  findMyFollowings {
+    following {
+      id
+      username
+      email
+      avatar
+    }
+  }
+}

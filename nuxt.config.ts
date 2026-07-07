@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: false },
-  modules: ["@nuxt/ui", "nuxt-typed-router", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "nuxt-typed-router", "@pinia/nuxt", "@nuxtjs/i18n"],
   css: ["~/assets/css/main.css"],
 
   runtimeConfig: {
@@ -13,9 +13,16 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    server: { allowedHosts: ["skiper.dev"] },
     optimizeDeps: {
-      include: ["zod"]
+      include: ["@apollo/client", "@apollo/client/link/subscriptions", "graphql", "graphql-ws", "livekit-client", "zod"]
     }
+  },
+
+  i18n: {
+    locales: [
+      { code: "en", language: "en-US", file: "en.json" },
+      { code: "ru", language: "ru-RU", file: "ru.json" }
+    ],
+    defaultLocale: "en"
   }
 })

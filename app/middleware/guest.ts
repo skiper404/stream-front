@@ -1,10 +1,8 @@
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const sessionStore = useSessionStore()
+  const session = await sessionStore.getCurrentSession()
 
-  try {
-    await sessionStore.getSession()
-    return navigateTo("/")
-  } catch {
-    return
+  if (session) {
+    return navigateTo(`/dashboard/settings`)
   }
 })

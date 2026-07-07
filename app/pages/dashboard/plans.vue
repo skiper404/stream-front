@@ -1,7 +1,7 @@
-<script setup></script>
+<script setup lang="ts"></script>
 
 <template>
-  <div></div>
+  <UContainer>
+    <div>Plans</div>
+  </UContainer>
 </template>
-
-<style lang="scss" scoped></style>

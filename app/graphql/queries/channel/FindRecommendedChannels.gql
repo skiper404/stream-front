@@ -1,0 +1,22 @@
+query FindRecommendedChannels {
+  findRecommendedChannels {
+    id
+    username
+    email
+    password
+
+    avatar
+    bio
+
+    isVerified
+    isEmailVerified
+    isTotpEnabled
+    totpSecret
+
+    deactivatedAt
+    isDeactivated
+
+    createdAt
+    updatedAt
+  }
+}

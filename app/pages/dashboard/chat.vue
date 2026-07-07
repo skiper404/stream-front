@@ -1,10 +1,7 @@
-<script setup>
-import ChangeChatSettings from "~/components/features/chat/settings/ChangeChatSettings.vue"
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div>
-    <div>Chat Settings Page</div>
-    <ChangeChatSettings />
-  </div>
+  <UContainer>
+    <div>Chat</div>
+  </UContainer>
 </template>

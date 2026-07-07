@@ -12,8 +12,10 @@
   "dependencies": {
     "@apollo/client": "^4.2.3",
     "@nuxt/ui": "^4.8.2",
+    "@nuxtjs/i18n": "^10.4.0",
     "@pinia/nuxt": "^0.11.3",
     "graphql": "^16.14.2",
+    "graphql-ws": "^6.0.8",
     "livekit-client": "^2.19.2",
     "nuxt": "^4.4.8",
     "nuxt-typed-router": "^4.0.9",

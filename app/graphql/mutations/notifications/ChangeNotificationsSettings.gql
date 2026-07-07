@@ -1,0 +1,7 @@
+mutation ChangeNotificationSettings($isEnable: Boolean!) {
+  changeNotificationSettings(isEnable: $isEnable) {
+    notificationSettings {
+      siteNotifications
+    }
+  }
+}

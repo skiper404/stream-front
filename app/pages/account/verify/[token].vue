@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const route = useRoute()
+const route = useRoute("account-verify-token")
 const toast = useToast()
 const authStore = useAuthStore()
 

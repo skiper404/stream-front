@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { NewPasswordDocument } from "~/graphql/generated/graphql"
-
-const route = useRoute()
+const route = useRoute("account-new-password-token")
 const toast = useToast()
 const authStore = useAuthStore()
 
