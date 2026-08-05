@@ -1,17 +1,19 @@
 <script setup lang="ts">
+usePrimaryColor()
 const sessionStore = useSessionStore()
 const userStore = useUserStore()
 
 const session = await sessionStore.getCurrentSession()
 
 if (session) {
-  await userStore.getUser()
+  await Promise.all([userStore.getUser(), sessionStore.getSessions()])
 }
 </script>
 
 <template>
   <div>
     <NuxtRouteAnnouncer />
+    <NuxtLoadingIndicator />
     <UApp>
       <NuxtLayout>
         <NuxtPage />

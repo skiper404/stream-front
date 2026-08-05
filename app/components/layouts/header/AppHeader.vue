@@ -1,20 +1,41 @@
 <script setup lang="ts">
-import AppHeaderMenu from "./AppHeaderMenu.vue"
+import AppSearch from "~/components/layouts/header/AppSearch.vue"
+import AppHeaderMenu from "~/components/layouts/header/AppHeaderMenu.vue"
 import AppLogo from "./AppLogo.vue"
-import AppSearch from "./AppSearch.vue"
+import RecommendedChannels from "../sidebar/RecommendedChannels.vue"
 
-const route = useRoute()
-const sessionStore = useSessionStore()
-
-const isAuthPage = computed(() => route.path.startsWith("/account"))
+const { items, isDashboard } = useNavigations()
 </script>
 
 <template>
-  <div class="bg-accented/50 fixed top-0 z-10 w-full py-2 backdrop-blur-sm">
-    <UContainer class="flex items-center justify-between gap-2">
+  <UHeader class="from-primary/20 backdrop z-10 bg-linear-to-r to-transparent">
+    <template #left>
       <AppLogo />
-      <AppSearch v-if="sessionStore.session" />
-      <AppHeaderMenu v-if="!isAuthPage" />
-    </UContainer>
-  </div>
+    </template>
+
+    <template #body>
+      <div class="space-y-2">
+        <AppSearch />
+        <UNavigationMenu
+          :items="items"
+          orientation="vertical"
+          :ui="{
+            link: 'cursor-pointer p-1.5 overflow-hidden h-12',
+            list: 'space-y-2'
+          }"
+        />
+        <USeparator />
+
+        <RecommendedChannels v-if="!isDashboard" />
+      </div>
+    </template>
+
+    <template #default>
+      <AppSearch class="w-lg" />
+    </template>
+
+    <template #right>
+      <AppHeaderMenu />
+    </template>
+  </UHeader>
 </template>

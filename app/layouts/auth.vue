@@ -5,8 +5,8 @@ import AppHeader from "~/components/layouts/header/AppHeader.vue"
 <template>
   <div class="h-screen">
     <AppHeader />
-    <main>
+    <UMain>
       <slot />
-    </main>
+    </UMain>
   </div>
 </template>

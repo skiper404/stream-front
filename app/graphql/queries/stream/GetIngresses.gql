@@ -1,7 +1,0 @@
-query GetIngresses {
-  getIngresses {
-    ingressId
-    serverUrl
-    streamKey
-  }
-}

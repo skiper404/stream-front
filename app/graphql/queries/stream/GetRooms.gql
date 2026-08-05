@@ -1,5 +1,0 @@
-query GetRooms {
-  getRooms {
-    name
-  }
-}

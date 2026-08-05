@@ -10,11 +10,27 @@ query GetUser {
 
     isVerified
     isEmailVerified
-    isTotpEnabled
-    totpSecret
+    isNotificationsEnabled
 
-    deactivatedAt
-    isDeactivated
+    socialLinks {
+      id
+      title
+      url
+    }
+
+    stream {
+      id
+      serverUrl
+      streamKey
+      chatMode
+    }
+
+    notifications {
+      id
+      payload
+      isRead
+      type
+    }
 
     createdAt
     updatedAt

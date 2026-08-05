@@ -1,6 +1,0 @@
-mutation CreateStreamStart {
-  createStreamStart {
-    payload
-    isRead
-  }
-}

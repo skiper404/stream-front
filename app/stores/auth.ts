@@ -1,5 +1,6 @@
 import {
   CreateUserDocument,
+  DeleteAccountDocument,
   LoginUserDocument,
   LogoutUserDocument,
   NewPasswordDocument,
@@ -36,14 +37,23 @@ export const useAuthStore = defineStore("auth", () => {
     const userStore = useUserStore()
 
     await $apollo.mutate({ mutation: LogoutUserDocument })
+    await $apollo.clearStore()
 
     sessionStore.session = null
     userStore.user = null
-    await $apollo.clearStore()
+  }
+
+  const deleteAccount = async (password: string) => {
+    await $apollo.mutate({
+      mutation: DeleteAccountDocument,
+      variables: { data: { password } }
+    })
   }
 
   const verifyAccount = async (token: string) => {
+    const userStore = useUserStore()
     await $apollo.mutate({ mutation: VerifyAccountDocument, variables: { data: { token } } })
+    await userStore.getUser()
   }
 
   const resetPassword = async (email: string) => {
@@ -57,5 +67,5 @@ export const useAuthStore = defineStore("auth", () => {
     })
   }
 
-  return { create, login, logout, verifyAccount, resetPassword, newPassword }
+  return { create, login, logout, verifyAccount, resetPassword, newPassword, deleteAccount }
 })

@@ -2,20 +2,24 @@ import { ApolloClient, InMemoryCache, HttpLink, ApolloLink } from "@apollo/clien
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions"
 import { OperationTypeNode } from "graphql"
 import { createClient } from "graphql-ws"
+import UploadHttpLink from "apollo-upload-client/UploadHttpLink.mjs"
 
 export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig()
   const headers = import.meta.server ? useRequestHeaders(["cookie"]) : {}
+  const config = useRuntimeConfig()
 
-  const httpLink = new HttpLink({
-    uri: "http://localhost:4000/graphql",
+  const backendUrl = config.public.backendUrl
+  const wsUrl = backendUrl.replace(/^http:/, "ws:").replace(/^https:/, "wss:")
+
+  const httpLink = new UploadHttpLink({
+    uri: backendUrl,
     credentials: "include", // для клиентского запроса сам браузер пробрасывает
     headers // для серверного я пробрасываю
   })
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: "ws://localhost:4000/graphql"
+      url: wsUrl
     })
   )
 

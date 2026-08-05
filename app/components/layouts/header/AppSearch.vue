@@ -2,7 +2,7 @@
 import type { FormSubmitEvent } from "@nuxt/ui"
 import z from "zod"
 
-const toast = useToast()
+const { t } = useI18n()
 
 const searchSchema = z.object({
   searchQuery: z.string().trim()
@@ -12,25 +12,26 @@ type SearchSchema = z.output<typeof searchSchema>
 
 const searchState = reactive<SearchSchema>({ searchQuery: "" })
 
-const onSubmit = (event: FormSubmitEvent<SearchSchema>) => {
-  toast.add({ title: event.data.searchQuery })
-  console.log(event.data)
-  searchState.searchQuery = ""
+const onSubmit = async (event: FormSubmitEvent<SearchSchema>) => {
+  await navigateTo({
+    path: "/streams",
+    query: event.data.searchQuery ? { searchTerm: event.data.searchQuery } : {}
+  })
 }
 </script>
 
 <template>
-  <div class="flex flex-1 justify-center transition-all sm:mx-10">
+  <div class="flex justify-center transition-all">
     <UForm :schema="searchSchema" :state="searchState" @submit="onSubmit" class="w-full">
       <UFieldGroup class="w-full">
         <UInput
-          class="w-full outline-none"
+          class="w-full"
           variant="subtle"
-          placeholder="Grand Theft Auto VI"
+          :placeholder="t('search.placeholder')"
           v-model="searchState.searchQuery"
         />
         <UButton
-          :class="['z-1 flex w-20 cursor-pointer justify-center transition-all']"
+          class="z-0 flex w-20 cursor-pointer justify-center transition-all"
           icon="lucide:search"
           variant="subtle"
           type="submit"

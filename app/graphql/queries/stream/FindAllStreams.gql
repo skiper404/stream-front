@@ -1,0 +1,20 @@
+query GetAllStreams($filters: FiltersInput!) {
+  getAllStreams(filters: $filters) {
+    id
+    title
+    thumbnailUrl
+    isLive
+    chatMode
+
+    user {
+      username
+      avatar
+      isVerified
+    }
+    category {
+      id
+      title
+      slug
+    }
+  }
+}

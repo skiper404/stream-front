@@ -1,2 +1,4 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@source inline("bg-{red,orange,amber,lime,emerald,teal,cyan,sky,blue,indigo,violet,fuchsia,pink,rose}-500");

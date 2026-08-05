@@ -3,6 +3,7 @@ import {
   ChangePasswordDocument,
   ChangeProfileAvatarDocument,
   ChangeProfileBioDocument,
+  ChangeProfileUsernameDocument,
   GetUserDocument,
   RemoveProfileAvatarDocument,
   type GetUserQuery
@@ -15,6 +16,7 @@ export const useUserStore = defineStore("userStore", () => {
 
   const getUser = async () => {
     const { data } = await $apollo.query({ query: GetUserDocument, fetchPolicy: "network-only" })
+
     user.value = data?.getUser ?? null
 
     return data?.getUser ?? null
@@ -39,6 +41,12 @@ export const useUserStore = defineStore("userStore", () => {
 
   const removeAvatar = async () => {
     await $apollo.mutate({ mutation: RemoveProfileAvatarDocument })
+    await getUser()
+  }
+
+  const changeUsername = async (username: string) => {
+    await $apollo.mutate({ mutation: ChangeProfileUsernameDocument, variables: { data: { username } } })
+    await getUser()
   }
 
   const changeBio = async (bio: string) => {
@@ -49,5 +57,14 @@ export const useUserStore = defineStore("userStore", () => {
     await getUser()
   }
 
-  return { user, getUser, changeEmail, changePassword, changeAvatar, removeAvatar, changeBio }
+  return {
+    user,
+    getUser,
+    changeEmail,
+    changePassword,
+    changeUsername,
+    changeAvatar,
+    removeAvatar,
+    changeBio
+  }
 })

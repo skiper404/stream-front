@@ -1,14 +1,14 @@
 import z from "zod"
+import { passwordField } from "./base/password.schema"
+import { loginField } from "./base/login.schema"
+import type { Composer } from "vue-i18n"
 
-export const loginUserSchema = z.object({
-  login: z
-    .string("Username or email required")
-    .min(1, "Username or email required")
-    .max(30, "Max length 30 characters"),
-  password: z
-    .string("Password is required")
-    .min(8, "Must be at least 8 characters")
-    .max(50, "Max password length 50 characters")
-})
+export type Translate = Composer["t"]
 
-export type LoginUserSchema = z.output<typeof loginUserSchema>
+export const loginUserSchema = (t: Translate) =>
+  z.object({
+    login: loginField(t),
+    password: passwordField(t)
+  })
+
+export type LoginUserSchema = z.output<ReturnType<typeof loginUserSchema>>

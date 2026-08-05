@@ -3,7 +3,28 @@ query FindCategoryBySlug($slug: String!) {
     id
     title
     slug
-    description
     thumbnailUrl
+    description
+
+    streams {
+      id
+      title
+      thumbnailUrl
+      isLive
+
+      chatMode
+
+      user {
+        username
+        avatar
+        isVerified
+      }
+
+      category {
+        id
+        title
+        slug
+      }
+    }
   }
 }

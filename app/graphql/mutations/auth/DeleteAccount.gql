@@ -1,0 +1,3 @@
+mutation DeleteAccount($data: DeleteAccountInput!) {
+  deleteAccount(data: $data)
+}

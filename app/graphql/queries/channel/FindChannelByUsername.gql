@@ -8,13 +8,42 @@ query FindChannelByUsername($username: String!) {
     avatar
     bio
 
+    isNotificationsEnabled
+
     isVerified
     isEmailVerified
-    isTotpEnabled
-    totpSecret
 
-    deactivatedAt
-    isDeactivated
+    sponsorshipPlans {
+      id
+      title
+      description
+      price
+    }
+
+    followings {
+      id
+    }
+
+    socialLinks {
+      id
+      title
+      url
+    }
+
+    stream {
+      id
+      title
+      thumbnailUrl
+      isLive
+      chatMode
+
+      category {
+        id
+        title
+        slug
+        description
+      }
+    }
 
     createdAt
     updatedAt

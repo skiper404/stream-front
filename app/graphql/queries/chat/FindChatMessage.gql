@@ -1,6 +1,12 @@
-query FindChatMessagesByStream {
-  findChatMessagesByStream(streamId: "123") {
+query FindChatMessagesByStream($streamId: String!) {
+  findChatMessagesByStream(streamId: $streamId) {
     id
     text
+    createdAt
+
+    user {
+      id
+      username
+    }
   }
 }
