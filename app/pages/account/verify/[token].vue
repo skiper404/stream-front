@@ -5,6 +5,7 @@ const authStore = useAuthStore()
 const userStore = useUserStore()
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 const token = computed(() => String(route.params.token ?? ""))
 const isLoading = ref(false)
@@ -22,7 +23,7 @@ const verifyAccount = async () => {
     toast.add({
       title: t("auth.account_verified")
     })
-    await navigateTo(`/${userStore.user?.username}`)
+    await navigateTo(localePath(`/${userStore.user?.username}`))
   } catch (e: any) {
     toast.add({
       title: t(e.message)
@@ -52,7 +53,7 @@ const verifyAccount = async () => {
       <template #footer>
         <div class="text-center text-xs">
           {{ t("auth.already_have_access") }}
-          <NuxtLink to="/account/login-user" class="text-primary font-medium hover:underline">
+          <NuxtLink :to="localePath('/account/login-user')" class="text-primary font-medium hover:underline">
             {{ t("auth.sign_in") }}
           </NuxtLink>
         </div>

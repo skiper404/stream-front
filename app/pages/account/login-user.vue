@@ -3,6 +3,8 @@ import type { FormSubmitEvent } from "@nuxt/ui"
 import FormError from "~/components/ui/FormError.vue"
 import { loginUserSchema, type LoginUserSchema } from "~/schemas/login-user.schema"
 
+const localePath = useLocalePath()
+
 definePageMeta({ middleware: "guest", layout: "auth" })
 const { t, locale } = useI18n()
 
@@ -40,7 +42,7 @@ const onSubmit = async (event: FormSubmitEvent<LoginUserSchema>) => {
   try {
     isLoading.value = true
     await authStore.login(event.data.login, event.data.password)
-    await navigateTo(`/${userStore.user?.username}`)
+    await navigateTo(localePath(`/${userStore.user!.username}`))
   } catch (err: any) {
     if (err) {
       error.value = t(err.message)

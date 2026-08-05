@@ -4,6 +4,7 @@ import { resetPasswordSchema, type ResetPasswordSchema } from "~/schemas/reset-p
 
 const route = useRoute("account-new-password-token")
 const { t } = useI18n()
+const localePath = useLocalePath()
 const toast = useToast()
 const authStore = useAuthStore()
 
@@ -27,7 +28,7 @@ const resetPassword = async (event: FormSubmitEvent<ResetPasswordSchema>) => {
     toast.add({
       title: t("auth.password_reset_success")
     })
-    await navigateTo("/account/login-user")
+    await navigateTo(localePath("/account/login-user"))
   } catch (e: any) {
     toast.add({
       title: t(e.message)

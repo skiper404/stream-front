@@ -5,6 +5,7 @@ import { emailSchema, type EmailSchema } from "~/schemas/email.schema"
 const { t } = useI18n()
 const toast = useToast()
 const authStore = useAuthStore()
+const localePath = useLocalePath()
 
 useSeoMeta({
   title: t("seo.reset_password.title"),
@@ -24,7 +25,7 @@ const resetPassword = async (event: FormSubmitEvent<EmailSchema>) => {
     toast.add({
       title: t("auth.reset_password_email_sent")
     })
-    await navigateTo("/account/login-user")
+    await navigateTo(localePath("/account/login-user"))
   } catch (e: any) {
     toast.add({
       title: t(e.message)
@@ -80,8 +81,8 @@ const resetPassword = async (event: FormSubmitEvent<EmailSchema>) => {
       <template #footer>
         <div class="text-center text-xs">
           {{ t("auth.remember_password") }}
-          <NuxtLink to="/account/login-user" class="text-primary font-medium hover:underline"
-            >{{ t("auth.sign_in") }}
+          <NuxtLink :to="localePath('/account/login-user')" class="text-primary font-medium hover:underline">
+            {{ t("auth.sign_in") }}
           </NuxtLink>
         </div>
       </template>

@@ -4,6 +4,7 @@ import FormError from "~/components/ui/FormError.vue"
 import { createUserSchema, type CreateUserSchema } from "~/schemas/create-user.schema"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 useSeoMeta({
   title: t("seo.create_user.title"),
@@ -40,7 +41,7 @@ const onSubmit = async (event: FormSubmitEvent<CreateUserSchema>) => {
   try {
     isLoading.value = true
     await authStore.create(event.data.username, event.data.email, event.data.password)
-    await navigateTo("/account/login-user")
+    await navigateTo(localePath("/account/login-user"))
   } catch (err: any) {
     if (err) {
       error.value = t(err.message)
