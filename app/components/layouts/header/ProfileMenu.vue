@@ -6,6 +6,7 @@ import Notifications from "./notifications/Notifications.vue"
 
 const authStore = useAuthStore()
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 const props = defineProps<{ user: GetUserQuery["getUser"] }>()
 
@@ -13,19 +14,19 @@ const items = computed<DropdownMenuItem[]>(() => [
   {
     label: props.user.username,
     icon: "lucide:user",
-    to: `/${props.user.username}`
+    to: localePath(`/${props.user.username}`)
   },
   {
     label: t("navigation.dashboard"),
     icon: "lucide:layout-dashboard",
-    to: "/dashboard/settings"
+    to: localePath("/dashboard/settings")
   },
   {
     label: t("auth.logout"),
     icon: "lucide:log-out",
     onSelect: async () => {
       await authStore.logout()
-      await navigateTo("/")
+      await navigateTo(localePath("/"))
     }
   }
 ])

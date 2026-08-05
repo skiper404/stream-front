@@ -1,12 +1,13 @@
 <script setup lang="ts">
 const route = useRoute()
 const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
 const price = computed(() => Number(route.query.price))
 const username = computed(() => String(route.query.username ?? ""))
 
 if (!price.value || !username.value) {
-  await navigateTo("/")
+  await navigateTo(localePath("/"))
 }
 
 useSeoMeta({

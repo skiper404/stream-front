@@ -3,6 +3,7 @@ import type { FormSubmitEvent } from "@nuxt/ui"
 import z from "zod"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 const searchSchema = z.object({
   searchQuery: z.string().trim()
@@ -13,10 +14,12 @@ type SearchSchema = z.output<typeof searchSchema>
 const searchState = reactive<SearchSchema>({ searchQuery: "" })
 
 const onSubmit = async (event: FormSubmitEvent<SearchSchema>) => {
-  await navigateTo({
-    path: "/streams",
-    query: event.data.searchQuery ? { searchTerm: event.data.searchQuery } : {}
-  })
+  await navigateTo(
+    localePath({
+      path: "/streams",
+      query: event.data.searchQuery ? { searchTerm: event.data.searchQuery } : {}
+    })
+  )
 }
 </script>
 

@@ -5,6 +5,7 @@ const { t } = useI18n()
 const authStore = useAuthStore()
 const userStore = useUserStore()
 const toast = useToast()
+const localePath = useLocalePath()
 
 const isLoading = ref(false)
 const isShowPassword = ref(true)
@@ -30,7 +31,7 @@ const deleteAccount = async () => {
   try {
     isLoading.value = true
     await authStore.deleteAccount(deleteUserState.password)
-    await navigateTo("/")
+    await navigateTo(localePath("/"))
     toast.add({
       title: t("settings.delete_account.success", {
         username: userStore.user?.username
