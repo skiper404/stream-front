@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center p-2">
-    <Icon class="animate-spin" name="lucide:loader" />
+  <div class="flex h-full items-center justify-center">
+    <Icon class="text-primary animate-spin" name="lucide:loader-circle" size="50" />
   </div>
 </template>

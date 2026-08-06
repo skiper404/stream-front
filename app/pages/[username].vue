@@ -36,8 +36,8 @@ useHead({
 </script>
 
 <template>
-  <UContainer>
+  <UContainer :ui="{ base: 'h-full' }">
     <AppLoader v-if="pending" />
-    <StreamOverview v-if="channel" :channel="channel" />
+    <StreamOverview v-else :channel="channel!" />
   </UContainer>
 </template>

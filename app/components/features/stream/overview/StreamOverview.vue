@@ -26,6 +26,15 @@ onMounted(async () => {
 onUnmounted(() => {
   disconnect()
 })
+
+onMounted(() => {
+  console.log("StreamOverview mounted")
+})
+
+onUnmounted(() => {
+  console.log("StreamOverview unmounted")
+  disconnect()
+})
 </script>
 
 <template>

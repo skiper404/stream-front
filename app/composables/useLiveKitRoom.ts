@@ -108,7 +108,6 @@ export const useLiveKitRoom = () => {
   const connect = async (token: string) => {
     await room.value!.connect(config.public.livekitUrl, token)
     updateParticipants()
-    await refreshNuxtData()
   }
 
   const disconnect = () => {

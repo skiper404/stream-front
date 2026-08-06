@@ -34,14 +34,20 @@ const items = computed<DropdownMenuItem[]>(() => [
 
 <template>
   <div class="flex gap-4">
-    <Notifications />
+    <UTooltip :text="t('notifications.title')" :delay-duration="0">
+      <Notifications />
+    </UTooltip>
+
     <UDropdownMenu
       :items="items"
       :ui="{
         content: 'w-48'
       }"
+      as-child
     >
-      <ChannelAvatar :channel="user" class="hover:border-primary transition-all hover:border-2" />
+      <UTooltip :text="user.username" :delay-duration="0">
+        <UButton icon="lucide:user" color="primary" variant="outline" class="cursor-pointer rounded-full" />
+      </UTooltip>
     </UDropdownMenu>
   </div>
 </template>
