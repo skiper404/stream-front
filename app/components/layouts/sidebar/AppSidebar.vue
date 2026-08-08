@@ -6,6 +6,7 @@ const sidebarStore = useSidebarStore()
 const { t } = useI18n()
 
 const { items, isDashboard } = useNavigations()
+const userStore = useUserStore()
 
 const { findRecommendedChannels } = useChannel()
 const { findMyFollowings } = useFollow()
@@ -33,7 +34,7 @@ const { data: followings } = useAsyncData("followingChannels", () => findMyFollo
     <USeparator />
 
     <ChannelList
-      v-if="!isDashboard"
+      v-if="!isDashboard && followings.length > 0 && userStore.user"
       :heading="t('home.followings_channels')"
       :channels="followings.map(f => f.following)"
     />
