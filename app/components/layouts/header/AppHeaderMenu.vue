@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LocaleButton from "~/components/ui/LocaleButton.vue"
 import ProfileMenu from "./ProfileMenu.vue"
 
 const userStore = useUserStore()
@@ -12,5 +13,6 @@ const { t } = useI18n()
     <UButton variant="solid" to="/account/create-user" class="hidden cursor-pointer sm:block">
       {{ t("auth.sign_up") }}</UButton
     >
+    <LocaleButton />
   </div>
 </template>
