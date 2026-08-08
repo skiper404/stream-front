@@ -6,6 +6,7 @@ import ChannelList from "../sidebar/ChannelList.vue"
 
 const { items, isDashboard } = useNavigations()
 const { t } = useI18n()
+const userStore = useUserStore()
 
 const { findRecommendedChannels } = useChannel()
 const { findMyFollowings } = useFollow()
@@ -34,7 +35,7 @@ const { data: followings } = useAsyncData("followingChannels", () => findMyFollo
         <USeparator />
 
         <ChannelList
-          v-if="!isDashboard && followings.length > 0"
+          v-if="!isDashboard && followings.length > 0 && userStore.user"
           :heading="t('home.followings_channels')"
           :channels="followings.map(f => f.following)"
         />
