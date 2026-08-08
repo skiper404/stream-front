@@ -5,6 +5,7 @@ import { createUserSchema, type CreateUserSchema } from "~/schemas/create-user.s
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const toast = useToast()
 
 useSeoMeta({
   title: t("seo.create_user.title"),
@@ -41,6 +42,7 @@ const onSubmit = async (event: FormSubmitEvent<CreateUserSchema>) => {
   try {
     isLoading.value = true
     await authStore.create(event.data.username, event.data.email, event.data.password)
+    toast.add({ title: t("auth.check_email") })
     await navigateTo(localePath("/account/login-user"))
   } catch (err: any) {
     if (err) {

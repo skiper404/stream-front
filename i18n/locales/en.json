@@ -53,6 +53,7 @@
     "create_account": "Create Account",
     "username": "Username",
     "email": "Email",
+    "check_email": "Check your email to complete creating your account",
     "email_not_found": "Email not found",
     "password": "Password",
     "repeat_password": "Repeat Password",
