@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui"
-import ChannelAvatar from "~/components/ui/ChannelAvatar.vue"
 import type { GetUserQuery } from "~/graphql/generated/graphql.js"
 import Notifications from "./notifications/Notifications.vue"
 
@@ -46,7 +45,7 @@ const items = computed<DropdownMenuItem[]>(() => [
       as-child
     >
       <UTooltip :text="user.username" :delay-duration="0">
-        <UButton icon="lucide:user" color="primary" variant="outline" class="cursor-pointer rounded-full" />
+        <UAvatar :src="user.avatar ? getMediaSrc(user.avatar) : undefined" :alt="user.username" color="neutral" />
       </UTooltip>
     </UDropdownMenu>
   </div>

@@ -28,7 +28,9 @@ const onClick = async (link: SocialLink, action: "copy" | "remove") => {
       </div>
       <div>
         <div>{{ link.title }}</div>
-        <div class="text-muted text-xs">{{ link.url }}</div>
+        <NuxtLink :to="link.url" class="text-muted hover:text-primary text-xs" target="_blank">
+          {{ link.url }}
+        </NuxtLink>
       </div>
     </div>
 

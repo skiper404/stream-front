@@ -54,7 +54,7 @@ type Documents = {
     "query FindSponsorsByChannel($channelId: String!) {\n  findSponsorsByChannel(channelId: $channelId) {\n    user {\n      id\n      username\n      avatar\n    }\n  }\n}": typeof types.FindSponsorsByChannelDocument,
     "query FindChatMessagesByStream($streamId: String!) {\n  findChatMessagesByStream(streamId: $streamId) {\n    id\n    text\n    createdAt\n    user {\n      id\n      username\n    }\n  }\n}": typeof types.FindChatMessagesByStreamDocument,
     "query FindMyFollowers {\n  findMyFollowers {\n    follower {\n      id\n      username\n      avatar\n      createdAt\n    }\n  }\n}": typeof types.FindMyFollowersDocument,
-    "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}": typeof types.FindMyFollowingsDocument,
+    "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      avatar\n      isVerified\n      stream {\n        isLive\n      }\n    }\n  }\n}": typeof types.FindMyFollowingsDocument,
     "query FindNotificationsByUser {\n  findNotificationsByUser {\n    id\n    payload\n    isRead\n    type\n  }\n}": typeof types.FindNotificationsByUserDocument,
     "query FindUnreadNotificationsCount {\n  findUnreadNotificationsCount\n}": typeof types.FindUnreadNotificationsCountDocument,
     "query FindMySponsorshipPlans {\n  findManySponsorshipPlans {\n    id\n    createdAt\n    title\n    price\n  }\n}": typeof types.FindMySponsorshipPlansDocument,
@@ -111,7 +111,7 @@ const documents: Documents = {
     "query FindSponsorsByChannel($channelId: String!) {\n  findSponsorsByChannel(channelId: $channelId) {\n    user {\n      id\n      username\n      avatar\n    }\n  }\n}": types.FindSponsorsByChannelDocument,
     "query FindChatMessagesByStream($streamId: String!) {\n  findChatMessagesByStream(streamId: $streamId) {\n    id\n    text\n    createdAt\n    user {\n      id\n      username\n    }\n  }\n}": types.FindChatMessagesByStreamDocument,
     "query FindMyFollowers {\n  findMyFollowers {\n    follower {\n      id\n      username\n      avatar\n      createdAt\n    }\n  }\n}": types.FindMyFollowersDocument,
-    "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}": types.FindMyFollowingsDocument,
+    "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      avatar\n      isVerified\n      stream {\n        isLive\n      }\n    }\n  }\n}": types.FindMyFollowingsDocument,
     "query FindNotificationsByUser {\n  findNotificationsByUser {\n    id\n    payload\n    isRead\n    type\n  }\n}": types.FindNotificationsByUserDocument,
     "query FindUnreadNotificationsCount {\n  findUnreadNotificationsCount\n}": types.FindUnreadNotificationsCountDocument,
     "query FindMySponsorshipPlans {\n  findManySponsorshipPlans {\n    id\n    createdAt\n    title\n    price\n  }\n}": types.FindMySponsorshipPlansDocument,
@@ -305,7 +305,7 @@ export function graphql(source: "query FindMyFollowers {\n  findMyFollowers {\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}"): (typeof documents)["query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      email\n      avatar\n    }\n  }\n}"];
+export function graphql(source: "query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      avatar\n      isVerified\n      stream {\n        isLive\n      }\n    }\n  }\n}"): (typeof documents)["query FindMyFollowings {\n  findMyFollowings {\n    following {\n      id\n      username\n      avatar\n      isVerified\n      stream {\n        isLive\n      }\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

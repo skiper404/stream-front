@@ -2,3 +2,11 @@
 @import "@nuxt/ui";
 
 @source inline("bg-{red,orange,amber,lime,emerald,teal,cyan,sky,blue,indigo,violet,fuchsia,pink,rose}-500");
+
+:root {
+  --ui-bg: oklch(90% 0.003 250);
+}
+
+.dark {
+  --ui-bg: oklch(15% 0.003 250);
+}

@@ -31,7 +31,8 @@
   },
 
   "home": {
-    "recommended_streams": "Каналы, которые могут вам понравиться"
+    "recommended_streams": "Каналы, которые могут вам понравиться",
+    "followings_channels": "Мои подписки"
   },
 
   "login": {
@@ -44,6 +45,7 @@
   },
 
   "auth": {
+    "verifying_account": "Верификация аккаунта...",
     "wrong_password": "Неверный пароль",
     "invalid_credentials": "Неверный логин или пароль",
     "sign_up": "Регистрация",
@@ -51,6 +53,7 @@
     "create_account": "Создать аккаунт",
     "username": "Имя пользователя",
     "email": "Электронная почта",
+    "email_not_found": "Почта не найдена",
     "password": "Пароль",
     "repeat_password": "Повторите пароль",
     "already_have_account": "Уже есть аккаунт?",

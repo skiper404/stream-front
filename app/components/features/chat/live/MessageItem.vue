@@ -6,7 +6,7 @@ const props = defineProps<{
   isSponsor: Boolean
 }>()
 
-const color = getRandomColor()
+const color = computed(() => getUserColor(props.message.user.id))
 
 const formattedDate = computed(() =>
   new Date(props.message.createdAt as Date).toLocaleTimeString([], {

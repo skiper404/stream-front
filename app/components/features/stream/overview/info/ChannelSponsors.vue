@@ -34,7 +34,7 @@ const { data: sponsors } = await useAsyncData(
         class="space-x-2"
       >
         <ChannelAvatar :channel="sponsor.user" />
-        <span :style="{ color: getRandomColor() }" class="transition-colors hover:text-white!">
+        <span :style="{ color: getUserColor(sponsor.user.id) }" class="transition-colors hover:text-white!">
           {{ sponsor.user.username }}</span
         >
       </NuxtLink>

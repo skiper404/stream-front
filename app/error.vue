@@ -18,7 +18,7 @@ const backHome = () => {
 </script>
 
 <template>
-  <header class="bg-accented/50 fixed top-0 w-full p-2">
+  <header class="bg-accented/50 fixed top-0 flex h-16 w-full px-8">
     <AppLogo />
   </header>
   <div class="flex h-screen flex-col items-center justify-center gap-4 pt-12">

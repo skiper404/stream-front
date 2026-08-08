@@ -31,7 +31,8 @@
   },
 
   "home": {
-    "recommended_streams": "Channels you may like"
+    "recommended_streams": "Channels you may like",
+    "followings_channels": "My followings"
   },
 
   "login": {
@@ -44,6 +45,7 @@
   },
 
   "auth": {
+    "verifying_account": "Verifying account...",
     "wrong_password": "Wrong password",
     "invalid_credentials": "Wrong email or password",
     "sign_up": "Sign Up",
@@ -51,6 +53,7 @@
     "create_account": "Create Account",
     "username": "Username",
     "email": "Email",
+    "email_not_found": "Email not found",
     "password": "Password",
     "repeat_password": "Repeat Password",
     "already_have_account": "Already have an account?",

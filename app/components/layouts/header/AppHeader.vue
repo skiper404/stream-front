@@ -2,9 +2,16 @@
 import AppSearch from "~/components/layouts/header/AppSearch.vue"
 import AppHeaderMenu from "~/components/layouts/header/AppHeaderMenu.vue"
 import AppLogo from "./AppLogo.vue"
-import RecommendedChannels from "../sidebar/RecommendedChannels.vue"
+import ChannelList from "../sidebar/ChannelList.vue"
 
 const { items, isDashboard } = useNavigations()
+const { t } = useI18n()
+
+const { findRecommendedChannels } = useChannel()
+const { findMyFollowings } = useFollow()
+
+const { data: channels } = useAsyncData("recommendedChannels", () => findRecommendedChannels(), { default: () => [] })
+const { data: followings } = useAsyncData("followingChannels", () => findMyFollowings(), { default: () => [] })
 </script>
 
 <template>
@@ -26,7 +33,13 @@ const { items, isDashboard } = useNavigations()
         />
         <USeparator />
 
-        <RecommendedChannels v-if="!isDashboard" />
+        <ChannelList
+          v-if="!isDashboard"
+          :heading="t('home.followings_channels')"
+          :channels="followings.map(f => f.following)"
+        />
+
+        <ChannelList v-if="!isDashboard" :heading="t('home.recommended_streams')" :channels="channels" />
       </div>
     </template>
 

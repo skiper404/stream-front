@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute("account-verify-token")
+
 const toast = useToast()
 const authStore = useAuthStore()
 const userStore = useUserStore()
@@ -7,7 +8,10 @@ const userStore = useUserStore()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
+definePageMeta({ middleware: "guest", layout: "auth" })
+
 const token = computed(() => String(route.params.token ?? ""))
+
 const isLoading = ref(false)
 
 useSeoMeta({
@@ -16,48 +20,39 @@ useSeoMeta({
   robots: "noindex,nofollow"
 })
 
-const verifyAccount = async () => {
+onMounted(async () => {
   try {
     isLoading.value = true
     await authStore.verifyAccount(token.value)
     toast.add({
       title: t("auth.account_verified")
     })
-    await navigateTo(localePath(`/${userStore.user?.username}`))
+
+    await navigateTo(localePath(`/${userStore.user?.username}`), {
+      replace: true
+    })
   } catch (e: any) {
     toast.add({
       title: t(e.message)
     })
+
+    await navigateTo(localePath("/account/login-user"), {
+      replace: true
+    })
   } finally {
     isLoading.value = false
   }
-}
+})
 </script>
 
 <template>
   <UContainer class="flex h-full flex-col items-center" :ui="{ base: 'mt-20' }">
-    <UCard class="w-full transition-all sm:w-100">
-      <template #header>
-        <div class="space-y-2 text-center">
-          <h1 class="font-semibold">
-            {{ t("auth.verify_account") }}
-          </h1>
-          <p class="text-muted">
-            {{ t("auth.verify_account_description") }}
-          </p>
-        </div>
-      </template>
-      <UButton block :loading="isLoading" :disabled="isLoading" @click="verifyAccount" class="cursor-pointer">
-        {{ t("auth.verify_account") }}
-      </UButton>
-      <template #footer>
-        <div class="text-center text-xs">
-          {{ t("auth.already_have_access") }}
-          <NuxtLink :to="localePath('/account/login-user')" class="text-primary font-medium hover:underline">
-            {{ t("auth.sign_in") }}
-          </NuxtLink>
-        </div>
-      </template>
-    </UCard>
+    <div class="flex flex-col items-center gap-4">
+      <Icon name="lucide:loader-circle" class="text-primary size-10 animate-spin" />
+
+      <p class="text-muted">
+        {{ t("auth.verifying_account") }}
+      </p>
+    </div>
   </UContainer>
 </template>

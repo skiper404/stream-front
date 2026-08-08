@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   modules: ["@nuxt/ui", "nuxt-typed-router", "@pinia/nuxt", "@nuxtjs/i18n", "@nuxt/image"],
   css: ["~/assets/css/main.css"],
 
+  colorMode: { preference: "dark", fallback: "dark" },
+
   runtimeConfig: {
     public: {
       backendUrl: process.env.NUXT_BACKEND_URL,

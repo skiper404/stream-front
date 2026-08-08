@@ -7,6 +7,7 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const toast = useToast()
 const authStore = useAuthStore()
+definePageMeta({ middleware: "guest", layout: "auth" })
 
 useSeoMeta({
   title: t("seo.new_password.title"),

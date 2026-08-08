@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import RecommendedChannels from "./RecommendedChannels.vue"
+import ChannelList from "./ChannelList.vue"
 
 const sidebarStore = useSidebarStore()
+
 const { t } = useI18n()
 
 const { items, isDashboard } = useNavigations()
+
+const { findRecommendedChannels } = useChannel()
+const { findMyFollowings } = useFollow()
+
+const { data: channels } = useAsyncData("recommendedChannels", () => findRecommendedChannels(), { default: () => [] })
+const { data: followings } = useAsyncData("followingChannels", () => findMyFollowings(), { default: () => [] })
 </script>
 
 <template>
@@ -25,7 +32,13 @@ const { items, isDashboard } = useNavigations()
     />
     <USeparator />
 
-    <RecommendedChannels v-if="!isDashboard" />
+    <ChannelList
+      v-if="!isDashboard"
+      :heading="t('home.followings_channels')"
+      :channels="followings.map(f => f.following)"
+    />
+
+    <ChannelList v-if="!isDashboard" :heading="t('home.recommended_streams')" :channels="channels" />
 
     <UButton
       color="neutral"

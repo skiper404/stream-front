@@ -6,6 +6,7 @@ const { t } = useI18n()
 const toast = useToast()
 const authStore = useAuthStore()
 const localePath = useLocalePath()
+definePageMeta({ middleware: "guest", layout: "auth" })
 
 useSeoMeta({
   title: t("seo.reset_password.title"),
